@@ -1,6 +1,6 @@
 part of yandex_mapkit;
 
-class Placemark {
+class Placemark implements Tappable {
   Placemark({
     required this.point,
     this.style = const PlacemarkStyle(),
@@ -9,5 +9,7 @@ class Placemark {
 
   final Point point;
   final PlacemarkStyle style;
+  @override
   final ArgumentCallback<Point>? onTap;
+
 }

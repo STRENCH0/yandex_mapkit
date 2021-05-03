@@ -192,7 +192,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
     String iconName = (String) paramsStyle.get("iconName");
     byte[] rawImageData = (byte[]) paramsStyle.get("rawImageData");
 
-    placemark.setUserData(params.get("hashCode"));
+    placemark.setUserData(params.get("key"));
     placemark.setOpacity(((Double) paramsStyle.get("opacity")).floatValue());
     placemark.setDraggable((Boolean) paramsStyle.get("isDraggable"));
     placemark.setDirection(((Double) paramsStyle.get("direction")).floatValue());
@@ -266,7 +266,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
 
     while (iterator.hasNext()) {
       PlacemarkMapObject placemarkMapObject = iterator.next();
-      if (placemarkMapObject.getUserData().equals(params.get("hashCode"))) {
+      if (placemarkMapObject.getUserData().equals(params.get("kay"))) {
         mapObjects.remove(placemarkMapObject);
         iterator.remove();
       }
@@ -358,7 +358,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
     String strokeColorString = String.valueOf(paramsStyle.get("strokeColor"));
     Long strokeColorLong = Long.parseLong(strokeColorString);
 
-    polyline.setUserData(params.get("hashCode"));
+    polyline.setUserData(params.get("key"));
     polyline.setOutlineColor(outlineColorLong.intValue());
     polyline.setOutlineWidth(((Double) paramsStyle.get("outlineWidth")).floatValue());
     polyline.setStrokeColor(strokeColorLong.intValue());
@@ -379,7 +379,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
 
     while (iterator.hasNext()) {
       PolylineMapObject polylineMapObject = iterator.next();
-      if (polylineMapObject.getUserData().equals(params.get("hashCode"))) {
+      if (polylineMapObject.getUserData().equals(params.get("key"))) {
         mapObjects.remove(polylineMapObject);
         iterator.remove();
       }
@@ -401,7 +401,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
       new Polygon(new LinearRing(polygonPoints), new ArrayList<LinearRing>())
     );
 
-    polygon.setUserData(params.get("hashCode"));
+    polygon.setUserData(params.get("key"));
     polygon.setStrokeWidth(((Double) paramsStyle.get("strokeWidth")).floatValue());
     polygon.setStrokeColor(((Number) paramsStyle.get("strokeColor")).intValue());
     polygon.setFillColor(((Number) paramsStyle.get("fillColor")).intValue());
@@ -417,7 +417,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
 
     while (iterator.hasNext()) {
       PolygonMapObject polygonMapObject = iterator.next();
-      if (polygonMapObject.getUserData().equals(params.get("hashCode"))) {
+      if (polygonMapObject.getUserData().equals(params.get("key"))) {
         mapObjects.remove(polygonMapObject);
         iterator.remove();
       }
@@ -628,7 +628,7 @@ public class YandexMapController implements PlatformView, MethodChannel.MethodCa
   private class YandexMapObjectTapListener implements MapObjectTapListener {
     public boolean onMapObjectTap(MapObject mapObject, Point point) {
       Map<String, Object> arguments = new HashMap<>();
-      arguments.put("hashCode", mapObject.getUserData());
+      arguments.put("key", mapObject.getUserData());
       arguments.put("latitude", point.getLatitude());
       arguments.put("longitude", point.getLongitude());
 

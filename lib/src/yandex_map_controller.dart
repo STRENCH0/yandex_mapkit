@@ -26,15 +26,14 @@ class YandexMapController extends ChangeNotifier {
 
   static YandexMapController init(int id, _YandexMapState yandexMapState) {
     final methodChannel =
-        MethodChannel('yandex_mapkit/yandex_map_$id');
+    MethodChannel('yandex_mapkit/yandex_map_$id');
 
     return YandexMapController._(methodChannel, yandexMapState);
   }
 
   /// Set Yandex logo position
-  Future<void> logoAlignment(
-      {required HorizontalAlignment horizontal,
-      required VerticalAlignment vertical}) async {
+  Future<void> logoAlignment({required HorizontalAlignment horizontal,
+    required VerticalAlignment vertical}) async {
     await _channel.invokeMethod<void>('logoAlignment', <String, int>{
       'x': horizontal.index,
       'y': vertical.index,
@@ -62,11 +61,10 @@ class YandexMapController extends ChangeNotifier {
   /// `android.permission.ACCESS_FINE_LOCATION`
   ///
   /// Does nothing if these permissions where denied
-  Future<void> showUserLayer(
-      {required String iconName,
-      required String arrowName,
-      bool userArrowOrientation = kUserArrowOrientation,
-      Color accuracyCircleFillColor = kAccuracyCircleFillColor}) async {
+  Future<void> showUserLayer({required String iconName,
+    required String arrowName,
+    bool userArrowOrientation = kUserArrowOrientation,
+    Color accuracyCircleFillColor = kAccuracyCircleFillColor}) async {
     await _channel.invokeMethod<void>('showUserLayer', <String, dynamic>{
       'iconName': iconName,
       'arrowName': arrowName,
@@ -95,12 +93,11 @@ class YandexMapController extends ChangeNotifier {
   }
 
   /// Moves camera to specified [point]
-  Future<void> move(
-      {required Point point,
-      double zoom = kZoom,
-      double azimuth = kAzimuth,
-      double tilt = kTilt,
-      MapAnimation? animation}) async {
+  Future<void> move({required Point point,
+    double zoom = kZoom,
+    double azimuth = kAzimuth,
+    double tilt = kTilt,
+    MapAnimation? animation}) async {
     await _channel.invokeMethod<void>('move', <String, dynamic>{
       'point': <String, dynamic>{
         'latitude': point.latitude,
@@ -118,10 +115,9 @@ class YandexMapController extends ChangeNotifier {
   }
 
   /// Moves map to include area inside [southWestPoint] and [northEastPoint]
-  Future<void> setBounds(
-      {required Point southWestPoint,
-      required Point northEastPoint,
-      MapAnimation? animation}) async {
+  Future<void> setBounds({required Point southWestPoint,
+    required Point northEastPoint,
+    MapAnimation? animation}) async {
     await _channel.invokeMethod<void>('setBounds', <String, dynamic>{
       'southWestPoint': <String, dynamic>{
         'latitude': southWestPoint.latitude,
@@ -146,19 +142,18 @@ class YandexMapController extends ChangeNotifier {
     required ScreenPoint topLeft
   }) async {
     await _channel.invokeMethod<void>(
-      'setFocusRect',
-      <String, dynamic>{
-        'bottomRightScreenPoint': <String, dynamic>{
-          'x': bottomRight.x,
-          'y': bottomRight.y,
-        },
-        'topLeftScreenPoint': <String, dynamic>{
-          'x': topLeft.x,
-          'y': topLeft.y,
+        'setFocusRect',
+        <String, dynamic>{
+          'bottomRightScreenPoint': <String, dynamic>{
+            'x': bottomRight.x,
+            'y': bottomRight.y,
+          },
+          'topLeftScreenPoint': <String, dynamic>{
+            'x': topLeft.x,
+            'y': topLeft.y,
+          }
         }
-
-      }
-    });
+    );
   }
 
   /// Clears focusRect set by `YandexMapController.setFocusRect`
@@ -182,7 +177,7 @@ class YandexMapController extends ChangeNotifier {
 
   /// Enables listening for map camera updates
   Future<Point> enableCameraTracking({
-      required CameraPositionCallback onCameraPositionChange,
+    required CameraPositionCallback onCameraPositionChange,
     PlacemarkStyle? style,
   }) async {
     _cameraPositionCallback = onCameraPositionChange;
@@ -240,7 +235,8 @@ class YandexMapController extends ChangeNotifier {
 
   /// Returns current user position point only if user layer is visible
   Future<Point?> getUserTargetPoint() async {
-    final dynamic point = await _channel.invokeMethod<dynamic>('getUserTargetPoint');
+    final dynamic point = await _channel.invokeMethod<dynamic>(
+        'getUserTargetPoint');
 
     if (point != null) {
       return Point(latitude: point['latitude'], longitude: point['longitude']);
@@ -252,14 +248,14 @@ class YandexMapController extends ChangeNotifier {
   /// Returns current camera position point
   Future<Point> getTargetPoint() async {
     final dynamic point =
-        await _channel.invokeMethod<dynamic>('getTargetPoint');
+    await _channel.invokeMethod<dynamic>('getTargetPoint');
     return Point(latitude: point['latitude'], longitude: point['longitude']);
   }
 
   /// Get bounds of visible map area
   Future<Map<String, Point>> getVisibleRegion() async {
     final dynamic region =
-        await _channel.invokeMethod<dynamic>('getVisibleRegion');
+    await _channel.invokeMethod<dynamic>('getVisibleRegion');
     return Map<String, Point>.of(<String, Point>{
       'bottomLeftPoint': Point(
           latitude: region['bottomLeftPoint']['latitude'],
@@ -339,7 +335,8 @@ class YandexMapController extends ChangeNotifier {
         'latitude': placemark.point.latitude,
         'longitude': placemark.point.longitude,
       },
-    }..addAll(_placemarkStyleParams(placemark.style));
+    }
+      ..addAll(_placemarkStyleParams(placemark.style));
   }
 
   Map<String, dynamic> _placemarkStyleParams(PlacemarkStyle style) {
@@ -362,13 +359,14 @@ class YandexMapController extends ChangeNotifier {
   Map<String, dynamic> _polylineParams(Polyline polyline) {
     final coordinates = polyline.coordinates
         .map((Point p) =>
-            <String, double>{'latitude': p.latitude, 'longitude': p.longitude})
+    <String, double>{'latitude': p.latitude, 'longitude': p.longitude})
         .toList();
 
     return <String, dynamic>{
       'key': polyline.getKey(),
       'coordinates': coordinates
-    }..addAll(_polylineStyleParams(polyline.style));
+    }
+      ..addAll(_polylineStyleParams(polyline.style));
   }
 
   Map<String, dynamic> _polylineStyleParams(PolylineStyle style) {
@@ -388,19 +386,28 @@ class YandexMapController extends ChangeNotifier {
 
   Map<String, dynamic> _polygonParams(Polygon polygon) {
     final outerRingCoordinates = polygon.outerRingCoordinates.map(
-      (Point p) => <String, double>{'latitude': p.latitude, 'longitude': p.longitude}
+            (Point p) =>
+        <String, double>{
+          'latitude': p.latitude,
+          'longitude': p.longitude
+        }
     ).toList();
     final innerRingsCoordinates = polygon.innerRingsCoordinates.map(
-      (List<Point> list) {
-        return list.map((Point p) => <String, double>{'latitude': p.latitude, 'longitude': p.longitude}).toList();
-      }
+            (List<Point> list) {
+          return list.map((Point p) =>
+          <String, double>{
+            'latitude': p.latitude,
+            'longitude': p.longitude
+          }).toList();
+        }
     ).toList();
 
     return <String, dynamic>{
       'key': polygon.getKey(),
       'outerRingCoordinates': outerRingCoordinates,
       'innerRingsCoordinates': innerRingsCoordinates
-    }..addAll(_polygonStyleParams(polygon.style));
+    }
+      ..addAll(_polygonStyleParams(polygon.style));
   }
 
   Map<String, dynamic> _polygonStyleParams(PolygonStyle style) {

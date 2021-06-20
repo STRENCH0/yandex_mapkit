@@ -18,10 +18,6 @@ class Polyline extends Equatable implements WithKey {
     return keyValue != null ? keyValue! : hashCode.toString();
   }
 
-
-  @override
-  final String key;
-
   @override
   List<Object> get props => <Object>[
     coordinates,

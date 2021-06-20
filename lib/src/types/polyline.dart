@@ -20,6 +20,9 @@ class Polyline extends Equatable implements WithKey {
 
 
   @override
+  final String key;
+
+  @override
   List<Object> get props => <Object>[
     coordinates,
     style

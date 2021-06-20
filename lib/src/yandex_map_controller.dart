@@ -156,8 +156,9 @@ class YandexMapController extends ChangeNotifier {
           'x': topLeft.x,
           'y': topLeft.y,
         }
+
       }
-    );
+    });
   }
 
   /// Clears focusRect set by `YandexMapController.setFocusRect`

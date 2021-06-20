@@ -2,7 +2,7 @@ part of yandex_mapkit;
 
 class Polyline extends Equatable implements WithKey {
   const Polyline({
-    required this.key,
+    this.keyValue,
     required this.coordinates,
     this.style = const PolylineStyle(),
   });
@@ -10,6 +10,14 @@ class Polyline extends Equatable implements WithKey {
   final List<Point> coordinates;
 
   final PolylineStyle style;
+
+  final String? keyValue;
+
+  @override
+  String getKey() {
+    return keyValue != null ? keyValue! : hashCode.toString();
+  }
+
 
   @override
   final String key;

@@ -2,7 +2,7 @@ part of yandex_mapkit;
 
 class Placemark implements Tappable {
   Placemark({
-    required this.key,
+    this.keyValue,
     required this.point,
     this.style = const PlacemarkStyle(),
     this.onTap,
@@ -11,7 +11,12 @@ class Placemark implements Tappable {
   final Point point;
   final PlacemarkStyle style;
   @override
-  final ArgumentCallback<Point>? onTap;
+  final TapCallback<Tappable, Point>? onTap;
+  final String? keyValue;
+
   @override
-  final String key;
+  String getKey() {
+    return keyValue != null ? keyValue! : hashCode.toString();
+  }
+
 }

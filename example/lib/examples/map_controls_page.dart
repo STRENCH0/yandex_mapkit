@@ -163,12 +163,30 @@ class _MapControlsExampleState extends State<_MapControlsExample> {
                   children: <Widget>[
                     ControlButton(
                       onPressed: () async {
-                        final Map<String, Point> region =
-                            await controller!.getVisibleRegion();
+                        final region = await controller!.getVisibleRegion();
                         print('TopLeft: ${region['topLeftPoint']}, BottomRight: ${region['bottomRightPoint']}');
                       },
                       title: 'Visible map region'),
                     const TextButton(onPressed: null, child: Text(''))
+                  ],
+                ),
+                TableRow(
+                  children: <Widget>[
+                    ControlButton(
+                      onPressed: () async {
+                        await controller!.setFocusRect(
+                          topLeft: const ScreenPoint(x: 200, y: 200),
+                          bottomRight: const ScreenPoint(x: 600, y: 600),
+                        );
+                      },
+                      title: 'Focus rect'
+                    ),
+                    ControlButton(
+                      onPressed: () async {
+                        await controller!.clearFocusRect();
+                      },
+                      title: 'Clear focus rect'
+                    )
                   ],
                 ),
               ],
